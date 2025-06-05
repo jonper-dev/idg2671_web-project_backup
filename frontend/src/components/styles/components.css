@@ -1,0 +1,32 @@
+/* Navbar.css */
+
+.navbar-container {
+    width: 100%;
+    margin: 0;
+  }
+  
+  .navbar-status {
+    color: #888;
+    margin-bottom: 8px;
+  }
+  
+  .navbar {
+    background-color: #4f6df5;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100vw;
+    margin-bottom: 2rem;
+  }
+  
+  .nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 40px;
+  }
+  
+  .nav-link:hover {
+    color: #e0e0e0;
+  }

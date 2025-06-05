@@ -1,0 +1,43 @@
+[
+  {
+    "_id": "1",
+    "title": "AI Awareness Survey",
+    "questions": ["What is AI?", "Do you trust AI?"],
+    "participants": [
+      { "_id": "P1", "answers": ["Artificial Intelligence", "Yes"] },
+      { "_id": "P2", "answers": ["Machine Learning", "No"] }
+    ]
+  },
+  {
+    "_id": "2",
+    "title": "Tech Habits",
+    "questions": ["How many hours do you use tech?", "Favorite device?"],
+    "participants": [
+      { "_id": "P3", "answers": ["5", "Phone"] },
+      { "_id": "P4", "answers": ["10", "Laptop"] }
+    ]
+  },
+  {
+    "_id": "3",
+    "title": "Differentiating AI-illustrations from Human-illustrations",
+    "questions": ["How likely is it that the shown image is AI-generated?",
+      "How likely is it that the shown image is AI-generated?",
+      "How likely is it that the shown image is AI-generated?"],
+    "participants": [
+      { "_id": "P1", "answers": ["80%", "25%", "30%"] },
+      { "_id": "P3", "answers": ["70%", "25%", "22%"] },
+      { "_id": "P4", "answers": ["86%", "30%", "32%"] }
+    ]
+  },
+  {
+    "_id": "4",
+    "title": "Differentiating AI-sketches from human-drawn sketches",
+    "questions": ["How likely is it that this sketch is AI-generated?",
+      "How likely is it that this sketch is AI-generated?",
+      "How likely is it that this sketch is AI-generated?",
+      "How likely is it that this sketch is AI-generated?"],
+    "participants": [
+      { "_id": "P4", "answers": ["50%", "10%", "40%", "40%"] }
+    ]
+  }
+]

@@ -1,0 +1,29 @@
+.available-studies-container {
+  text-align: center;
+  padding: 2rem;
+}
+
+.study-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.study-card {
+  background-color: white;
+  color: #777;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 1rem;
+  max-width: 300px;
+  width: 100%;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.study-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

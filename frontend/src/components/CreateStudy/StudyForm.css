@@ -1,0 +1,108 @@
+
+
+body {
+   background-color: #FCF7F8;
+}
+
+.studyFormWrapper {
+    margin-left: 4rem;
+    margin-right: 4rem;
+  
+}
+
+.studyFormHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.createStudyTitle {
+    font-size: 2.5rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    margin: 0; 
+    text-align: left; 
+    flex-grow: 1; 
+    
+}
+
+
+.buttonLine {
+    display: flex;
+    gap: 1rem;
+}
+
+.dateInputsWrapper {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+    padding-left: 0.5rem;
+  }
+  
+  .dateInputsWrapper label {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    width: 100%;
+  }
+  
+  .dateInputsWrapper input[type="date"] {
+    border: none;
+    border-bottom: 2px solid var(--border-color);
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: transparent;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .dateInputsWrapper input[type="date"]:focus {
+    border-bottom: 0.1rem solid var(--siteColor);
+  }
+  
+
+
+.errorMessage {
+    color: #e63946; 
+    background-color: #ffe5e5;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    border: 1px solid #e63946;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.loadingMessage {
+    color: #555;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+  
+.CreateStudyButton {
+    background-color: #62db66;
+    color: black;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.8rem;
+    font-size: 1rem;
+}
+
+.CreateStudyPublish{
+    color: white;
+    background-color: #5E69FF;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.8rem;
+    font-size: 1rem;
+}
+
+
+.QuestionListWrapper {
+    margin-top: 4rem;
+}

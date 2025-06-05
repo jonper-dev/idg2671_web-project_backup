@@ -1,0 +1,27 @@
+//ARTEFACTS
+GET http://localhost:8080/api/artefacts
+GET http://localhost:8080/api/artefacts/67e2885ad43b6d83f15affe
+DELETE http://localhost:8080/api/artefacts/67e2885ad43b6d83f15affe1
+//**SJEKK  PUT ETTER man har skapt de andre routes
+//**SJEKK  POST ETTER man har skapt de andre routes
+
+
+
+
+//STUDY
+
+GET http://localhost:8080/api/studies
+GET http://localhost:8080/api/studies/67e2885ad43b6d83f15affdc
+DELETE http://localhost:8080/api/studies/67e2885ad43b6d83f15affdc
+POST http://localhost:8080/api/studies
+
+
+{
+  "researcher": "3493939239492934",
+  "title": "Understanding AI Bias",
+  "description": "A study on biases in artificial intelligence models.",
+  "status": "active",
+  "startDate": "2025-04-01",
+  "endDate": "2025-07-01"
+}
+

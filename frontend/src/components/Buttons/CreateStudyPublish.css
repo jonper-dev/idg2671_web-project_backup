@@ -1,0 +1,8 @@
+.publish-button {
+    background-color: green;
+    color: white;
+}
+
+.publish-button:hover {
+    background-color: darkgreen;
+}
