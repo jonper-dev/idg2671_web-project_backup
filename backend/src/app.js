@@ -33,8 +33,21 @@ routes.forEach(route => {
 });
 app.use('/api/responses', require('./routes/responseRoutes'));
 
-// Connect upload route
+// Handling file uploads (e.g. POST with multipart/form-data).
 app.use('/api/upload', require('./routes/uploadRoutes'));
+
+// Serving uploaded files as static assets.
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+if (process.env.NODE_ENV === 'production') {
+  // Serving frontend build files (for production).
+  app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
+
+  // Fallback for SPA (only for non-API, non-static requests).
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+  });
+}
 
 // Register/login
 const authRoutes = require('./routes/authRoutes');
@@ -44,11 +57,12 @@ app.get('/api/me', require('./middleware/authMiddleware'), (req, res) => {
   res.json({ user: req.user });
 });
 
-// Serving the frontend build files
-app.use(express.static(path.join(__dirname, 'frontend/dist')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/dist', 'index.html'));
+// Error handler for missing files.
+app.use((err, req, res, next) => {
+  if (err.code === 'ENOENT') {
+    return res.status(404).json({ message: 'File not found.' });
+  }
+  next(err);
 });
 
 // Start Server

@@ -1,0 +1,65 @@
+.take-study-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.study-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.progress-indicator {
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.comparison-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.nav-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.nav-controls button {
+  color: white;
+}
+
+.thank-you-message {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.question-block {
+  margin-bottom: 2rem;
+}
+
+.artefact-image {
+  display: block;
+  width: 100%;
+  max-width: 20rem;
+  margin: 1rem auto;
+}
+
+h2, h3, h4, h5, h6 {
+    margin: 0 auto;
+    text-align: center;
+}
+
+h2, p {
+    color: #777;
+}
+
+textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+}

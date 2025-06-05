@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-///no styles yet
 export default function TakeStudy() {
   const { id } = useParams();
   const [study, setStudy] = useState(null);
@@ -13,7 +12,7 @@ export default function TakeStudy() {
 
   useEffect(() => {
     const fetchStudy = async () => {
-      const res = await fetch(`http://localhost:8080/api/studies/${id}`);
+      const res = await fetch(`/api/studies/${id}`);
       const data = await res.json();
       setStudy(data.study);
     };
@@ -25,23 +24,17 @@ export default function TakeStudy() {
       setParticipantId(existingId);
     } else {
       const createParticipant = async () => {
-        const res = await fetch("http://localhost:8080/api/participants", {
-          method: "POST",
-        });
+        const res = await fetch("/api/participants", { method: "POST" });
         const data = await res.json();
         sessionStorage.setItem("participantId", data._id);
         setParticipantId(data._id);
       };
-
       createParticipant();
     }
   }, [id]);
 
   const handleAnswer = (value) => {
-    if (!study || !study.questions || !study.questions[currentIndex]) {
-      return;
-    }
-
+    if (!study?.questions?.[currentIndex]) return;
     const question = study.questions[currentIndex];
     setResponses((prev) => ({
       ...prev,
@@ -61,15 +54,13 @@ export default function TakeStudy() {
       answers: Object.values(responses),
     };
 
-    const res = await fetch("http://localhost:8080/api/responses", {
+    const res = await fetch("/api/responses", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
 
-    if (res.ok) {
-      setSubmitted(true);
-    }
+    if (res.ok) setSubmitted(true);
     setSubmitting(false);
   };
 
@@ -79,13 +70,27 @@ export default function TakeStudy() {
 
   const question = study.questions[currentIndex];
   const answer = responses[currentIndex]?.answer || "";
+  const totalQuestions = study.questions.length;
+
+  if (submitted) {
+    return (
+      <section className="take-study-section">
+        <div className="thank-you-message">
+          <h2>Thank you for your participation!</h2>
+          <p>Your answers have been submitted successfully.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <div className="take-study-page">
-
-      <div style={{ textAlign: "center" }}>
+    <section className="take-study-section">
+      <div className="study-header">
         <h1>{study.title}</h1>
         <p>{study.description}</p>
+        <p className="progress-indicator">
+          Question {currentIndex + 1} of {totalQuestions}
+        </p>
       </div>
 
       <div className="question-block">
@@ -96,7 +101,7 @@ export default function TakeStudy() {
             key={i}
             src={a.url}
             alt={`Artefact ${i + 1}`}
-            style={{ width: "100%", maxWidth: "20rem", marginBottom: "1rem" }}
+            className="artefact-image"
           />
         ))}
 
@@ -124,7 +129,7 @@ export default function TakeStudy() {
               );
             case "comparison":
               return (
-                <div style={{ display: "flex", gap: "1rem" }}>
+                <div className="comparison-buttons">
                   <button onClick={() => handleAnswer("left")}>Left</button>
                   <button onClick={() => handleAnswer("right")}>Right</button>
                 </div>
@@ -143,7 +148,7 @@ export default function TakeStudy() {
           Back
         </button>
 
-        {currentIndex < study.questions.length - 1 ? (
+        {currentIndex < totalQuestions - 1 ? (
           <button
             onClick={() => setCurrentIndex((i) => i + 1)}
             disabled={!responses[currentIndex]}
@@ -159,6 +164,6 @@ export default function TakeStudy() {
           </button>
         )}
       </div>
-    </div>
+    </section>
   );
 }

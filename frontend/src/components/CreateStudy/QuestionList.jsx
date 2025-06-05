@@ -1,7 +1,7 @@
 import Question from "./Question";
 import './QuestionList.css';
 
-export default function QuestionList({ questions, setQuestions }) {
+export default function QuestionList({ questions, setQuestions, highlightInvalid = [] }) {
   const addQuestion = () => {
     setQuestions((prevQuestions) => [
       ...prevQuestions,
@@ -16,8 +16,11 @@ export default function QuestionList({ questions, setQuestions }) {
   };
 
   const removeQuestion = (index) => {
-    // minimum of 4
-    if (questions.length <= 4) return; 
+    // A minimum of 1 question is required.
+    if (questions.length <= 1) {
+      console.log("Can't delete. A study must have at least one question.");
+      return;
+    }
     const updated = [...questions];
     updated.splice(index, 1);
     setQuestions(updated);
@@ -28,6 +31,7 @@ export default function QuestionList({ questions, setQuestions }) {
       {questions.map((question, index) => (
         <Question
           key={index}
+          className={`question-block ${highlightInvalid.includes(index) ? 'invalid' : ''}`}
           number={index + 1}
           question={question}
           updateQuestion={(updated) => updateQuestion(index, updated)}

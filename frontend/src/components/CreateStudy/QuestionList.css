@@ -6,24 +6,23 @@
 
 .QuestionWrapper {
     margin-bottom: 20px;
-    
   }
-  
-  
 
-  .AddQuestionButton {
-    padding: 1rem;
-    margin: 1rem;
-    background-color: var(--siteColor);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.AddQuestionButton {
+  padding: 1rem;
+  margin: 1rem;
+  background-color: var(--siteColor);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+  
+.AddQuestionButton:hover {
+  background-color: #589feb;
+}
 
-    
-  }
-  
-  .AddQuestionButton:hover {
-    background-color: #589feb;
-  }
-  
+.question-block.invalid {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}

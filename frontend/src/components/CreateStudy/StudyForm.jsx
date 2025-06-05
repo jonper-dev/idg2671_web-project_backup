@@ -41,10 +41,6 @@ export default function StudyForm({
       ? initialQuestions
       : JSON.parse(localStorage.getItem("draft-questions")) || [
         { questionText: "", feedbackType: "", artefacts: [] },
-        { questionText: "", feedbackType: "", artefacts: [] },
-        { questionText: "", feedbackType: "", artefacts: [] },
-        { questionText: "", feedbackType: "", artefacts: [] },
-        { questionText: "", feedbackType: "", artefacts: [] },
       ]
   );
 
@@ -66,51 +62,73 @@ export default function StudyForm({
     return () => clearInterval(interval);
   }, [title, description, startDate, endDate, questions, mode]);
 
-
+  // React-hook for storing and setting the highlighting of invalid questions.
+  const [highlightInvalid, setHighlightInvalid] = useState([]);
 
   const validateForm = () => {
-    if (!title.trim()) {
-      toast.error("Study title is required.");
-      return false;
-    }
+    const invalidIndices = [];
+    const validQuestions = questions.filter((q, index) => {
+      const isEmpty = !q.questionText.trim() && !q.feedbackType && q.artefacts.length === 0;
+      const isIncomplete = (!q.questionText.trim() || !q.feedbackType);
 
-    if (
-      startDate &&
-      endDate &&
-      new Date(startDate) > new Date(endDate)
-    ) {
-      toast.error("End date must be after start date.");
-      return false;
-    }
-
-    if (questions.length === 0) {
-      toast.error("You must add at least one question before submitting.");
-      return false;
-    }
-
-    const hasValidQuestion = questions.some((q) => {
-      if (!q.questionText.trim() || !q.feedbackType) return false;
-      if (
-        ["comparison", "multiple-choice"].includes(q.feedbackType) ||
-        q.feedbackType.includes("slider")
-      ) {
-        return q.artefacts.length > 0;
+      if (isIncomplete && !isEmpty) {
+        invalidIndices.push(index);
+        return false;
       }
-      return true;
+
+      return !isEmpty; // Only include valid or complete questions
     });
 
-    if (!hasValidQuestion) {
-      toast.error("At least one complete question with artefact is required.");
+    if (invalidIndices.length > 0) {
+      setHighlightInvalid(invalidIndices);
+      toast.error("Some questions are partially filled. Please complete or remove them.");
       return false;
     }
 
+    setHighlightInvalid([]);
     return true;
   };
 
-  const handleSaveOrPublishStudy = async (status) => {
-    if (!validateForm()) return;
 
+  const handleSaveOrPublishStudy = async (status) => {
     setLoading(true);
+
+    const incompleteQuestions = [];
+    const validQuestions = [];
+
+    questions.forEach((q, idx) => {
+      const hasText = q.questionText?.trim();
+      const hasType = q.feedbackType?.trim();
+      const needsArtefacts =
+        ["comparison", "multiple-choice"].includes(q.feedbackType) ||
+        q.feedbackType?.includes("slider");
+      const hasArtefacts = q.artefacts?.length > 0;
+
+      // Entirely empty questions are skipped.
+      if (!hasText && !hasType && !hasArtefacts) return;
+
+      // Partially filled questions are flag as invalid, preventing quiz-creation.
+      if (!hasText || !hasType || (needsArtefacts && !hasArtefacts)) {
+        incompleteQuestions.push(idx);
+        return;
+      }
+
+      // Valid question
+      validQuestions.push(q);
+    });
+
+    if (incompleteQuestions.length > 0) {
+      toast.error("You have incomplete questions. Please complete or remove them before submitting.");
+      setLoading(false);
+      return;
+    }
+
+    if (validQuestions.length === 0) {
+      toast.error("You must add at least one complete question.");
+      setLoading(false);
+      return;
+    }
+
     const studyData = {
       researcher: researcherId,
       title,
@@ -118,11 +136,7 @@ export default function StudyForm({
       startDate,
       endDate,
       status,
-      questions: questions.map(q => ({
-        questionText: q.questionText,
-        feedbackType: q.feedbackType,
-        artefacts: q.artefacts
-      }))
+      questions: validQuestions
     };
 
     try {
@@ -146,7 +160,9 @@ export default function StudyForm({
         return;
       }
 
-      const studyId = mode === "edit" ? initialStudy._id : result._id;
+      const studyId = mode === "edit"
+        ? initialStudy._id
+        : result.savedStudy?._id || result._id;
 
       // Logging process step right before artefact-uploads.
       toast.success("Study created, uploading artefacts...");
@@ -157,10 +173,10 @@ export default function StudyForm({
 
           const artefactData = {
             study: studyId,
-            researcher: researcherId, // Using the static ID.
-            title: q.questionText,
-            description: "Artefact for question",
-            fileUrl: artefact.url,
+            researcher: researcherId, // Using the ID from the variable.
+            questionText: q.questionText,
+            description: "Artefact for question.",
+            fileUrl: artefact.url, // Already provided from the uploaded file.
           };
 
           try {
@@ -246,7 +262,11 @@ export default function StudyForm({
       </div>
 
       <div className="QuestionListWrapper">
-        <QuestionList questions={questions} setQuestions={setQuestions} />
+        <QuestionList
+          questions={questions}
+          setQuestions={setQuestions}
+          highlightInvalid={highlightInvalid}
+        />
       </div>
     </div>
   );

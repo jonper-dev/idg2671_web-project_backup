@@ -45,7 +45,7 @@ async function seed() {
         const artefact = await Artefact.create({
           study: study._id,
           researcher: researcherId,
-          title: `Artefact ${j} (Study ${i})`,
+          questionText: `Artefact ${j} (Study ${i})`,
           description: "Generated artefact for testing perception.",
           fileUrl: `https://picsum.photos/200/300`,
         });
@@ -55,7 +55,7 @@ async function seed() {
             await Response.create({
               study: study._id,
               participant: participant._id,
-              questionText: `What do you think of ${artefact.title}?`,
+              questionText: `What do you think of ${artefact.questionText}?`,
               feedbackType: "text-field",
               answer: Math.random() > 0.5 ? "Looks real to me." : "Feels AI-generated.",
             });

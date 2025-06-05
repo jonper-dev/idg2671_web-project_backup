@@ -1,4 +1,5 @@
 const Study = require('../models/study');
+const Artefact = require('../models/artefact');
 const { getById, getModel, deleteModel } = require('../utils/helpers/controllerHelpers');
 
 /**
@@ -8,10 +9,41 @@ const { getById, getModel, deleteModel } = require('../utils/helpers/controllerH
 const getStudies = (req, res) => getModel(Study, req, res, 'Study');
 
 /**
- * @desc Fetch a single study by ID
+ * @desc Fetch a single study by ID, populating the questions with artifacts.
  * @route GET /api/studies/:id
  */
-const getStudyById = (req, res) => getById(Study, req, res, 'Study');
+// GET a single study and inject its artifacts into the correct questions.
+const getStudyById = async (req, res) => {
+  try {
+    const study = await Study.findById(req.params.id).lean();
+    if (!study) return res.status(404).json({ message: "Study not found" });
+
+    // Getting all artifacts belonging to this study.
+    const artefacts = await Artefact.find({ study: study._id }).lean();
+
+    // Mapping artifacts into their respective questions.
+    const questionsWithArtefacts = study.questions.map((question) => {
+      const matchingArtefacts = artefacts.filter((a) =>
+        a.questionText  === question.questionText
+      );
+
+      return {
+        ...question,
+        artefacts: matchingArtefacts.map((a) => ({
+          url: a.fileUrl,
+          file: { name: a.fileUrl.split('/').pop() },
+        })),
+      };
+    });
+
+    study.questions = questionsWithArtefacts;
+
+    res.json({ study });
+  } catch (error) {
+    console.error('Error fetching study with artefacts:', error);
+    res.status(500).json({ message: "Failed to fetch study", error: error.message });
+  }
+};
 
 /**
  * @desc Create a new study
@@ -36,7 +68,7 @@ const createStudy = async (req, res) => {
     });
 
     const savedStudy = await newStudy.save();
-    res.status(201).json(savedStudy);
+    res.status(201).json({ savedStudy });
   } catch (error) {
     res.status(500).json({ message: 'Error creating study', error: error.message });
   }

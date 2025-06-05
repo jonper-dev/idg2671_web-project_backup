@@ -19,7 +19,7 @@ function Navbar() {
       <nav className="navbar">
         {!isLoggedIn ? (
           <>
-            <Link to="/quizzes" className="nav-link">Take a Quiz</Link>
+            <Link to="/studies" className="nav-link">Take a Quiz</Link>
             <Link to="/about" className="nav-link">About</Link>
             <Link to="/login" className="nav-link">Login</Link>
             <Link to="/register" className="nav-link">Register</Link>
