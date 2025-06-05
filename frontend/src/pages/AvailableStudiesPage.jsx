@@ -35,7 +35,7 @@ export default function AvailableStudiesPage() {
           <div
             key={study._id}
             className="study-card"
-            onClick={() => navigate(`/study/${study._id}`)}
+            onClick={() => navigate(`/studies/${study._id}`)}
           >
             <h2>{study.title}</h2>
             <p>{study.description}</p>

@@ -169,9 +169,9 @@ const handleSubmit = async (status) => {
           study: id,
           researcher: study.researcher,
           question: match._id,
-          title: q.questionText,
+          questionText: q.questionText,
           description: "Artefact for question",
-          fileUrl: uploadJson.fileUrl,
+          fileUrl: artefact.url,
         };
 
         await fetch("/api/artefacts", {

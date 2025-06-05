@@ -101,6 +101,10 @@ th, td {
     /* box-shadow: 0 0 10px rgba(0,0,0,0.15); */
 }
 
+.summary-card--expanded h2, .summary-card--expanded h3, .summary-card--expanded p {
+    color: white;
+}
+
 @media (min-width: 768px) {
     .summary-card--expanded {
         width: 100%;

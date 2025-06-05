@@ -12,6 +12,7 @@ import Dashboard from '../components/Dashboard/Dashboard';
 import CreateStudy from '../components/CreateStudy/StudyForm';
 import ResultsPage from '../pages/ResultsPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import TakeStudyPage from '../pages/TakeStudyPage';
 import EditStudyForm from '../components/editStudy/editstudyForm';
 import TakeStudy from '../components/TakeStudy/TakeStudy';
 
@@ -52,7 +53,8 @@ const AppRoutes = () => {
       {/* Public routes */}
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
-      <Route path="/quizzes" element={<AvailableStudiesPage />} />
+      <Route path="/studies" element={<AvailableStudiesPage />} />
+      <Route path="/studies/:id" element={<TakeStudyPage />} />
       
       {/* Authentication routes - redirect to dashboard if already logged in */}
       <Route path="/login" element={
@@ -77,12 +79,6 @@ const AppRoutes = () => {
       <Route path="/create-study" element={
         <ProtectedRoute>
           <CreateStudy/>
-        </ProtectedRoute>
-      } />
-
-      <Route path="/study/:id" element={
-        <ProtectedRoute>
-          <TakeStudy/>
         </ProtectedRoute>
       } />
       
