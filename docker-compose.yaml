@@ -1,0 +1,23 @@
+### Docker compose-file ###
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/evalio_database
+      - JWT_SECRET=SecretKeyForNTNUCloud
+    volumes:
+      - ./uploads:/app/uploads  ## Persist uploaded files
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
